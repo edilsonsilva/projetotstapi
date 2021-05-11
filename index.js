@@ -103,6 +103,18 @@ app.get("/epi/listar",cors(optCors),(req,res)=>{
     });
 });
 
+app.post("/epi/cadastro",cors(optCors),(req,res)=>{
+    connection.query("insert into epi set ?",[req.body],(error,data,fields)=>{
+        if(error){
+            res.status(400).send({result:`Erro ao tentar cadastrar os epis -> ${error.stack}`});
+            return;
+        }
+        res.status(200).send({result:data});
+    });
+});
+
+
+
 app.get("/retirada_devolucao/listar",cors(optCors),(req,res)=>{
     connection.query(`select e.nomeepi,e.datavalidade,r.idretirada_devolucao,r.dataretirada, r.datadevolucao,r.devolvido 
     from epi e inner join retirada_devolucao r on e.idepi = r.idepi`,(error,data,fields)=>{
@@ -151,4 +163,4 @@ app.put("/retirada_devolucao/updatedata/:id",cors(optCors),(req,res)=>{
 });
 
 //informacoes do servidor
-app.listen(5535,()=>console.log(`Servidor online na porta 5535`));
+app.listen(3218,()=>console.log(`Servidor online na porta 5535`));
